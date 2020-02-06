@@ -28,7 +28,7 @@ def exists(file, dir):
 
 # git tasks
 @task
-def pull(ctx, branch="dev"):
+def pull(ctx, branch="master"):
     # check if ctx is Connection object or Context object
     # if Connection object then calling method from program
     # else calling directly from terminal
