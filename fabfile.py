@@ -3,8 +3,9 @@ from fabric import Connection, task
 from invoke import Responder
 from fabric.config import Config
 
-PROJECT_NAME = "codes/xxx"
-PROJECT_PATH = "~/{}".format(PROJECT_NAME)
+PROJECT_NAME = "xxx"
+PROJECT_ROOT = '~/codes'
+PROJECT_PATH = f'{PROJECT_ROOT}/{PROJECT_NAME}'
 REPO_URL = "git@github.com:zealzel/xxx.git"
 
 def get_connection(ctx):
@@ -60,12 +61,13 @@ def clone(ctx):
         conn = ctx
     else:
         conn = get_connection(ctx)
-    ls_result = conn.run("ls").stdout
-    ls_result = ls_result.split("\n")
-    if exists(PROJECT_NAME, ls_result):
-        print("project already exists")
-        return
-    conn.run("git clone {} {}".format(REPO_URL, PROJECT_NAME))
+    with conn.cd(PROJECT_ROOT):
+        ls_result = conn.run("ls").stdout
+        ls_result = ls_result.split("\n")
+        if exists(PROJECT_NAME, ls_result):
+            print("project already exists")
+            return
+        conn.run("git clone {} {}".format(REPO_URL, PROJECT_NAME))
 
 @task
 def migrate(ctx):
