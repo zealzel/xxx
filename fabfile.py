@@ -95,8 +95,8 @@ def restart(ctx):
         conn = ctx
     else:
         conn = get_connection(ctx)
-    print("restarting supervisor...")
-    conn.sudo("supervisorctl restart all")
+    print("restarting nginx...")
+    conn.sudo("sudo systemctl restart nginx")
 
 @task
 def stop(ctx):
@@ -124,11 +124,11 @@ def deploy(ctx):
         sys.exit("Failed to get connection")
     clone(conn)
     with conn.cd(PROJECT_PATH):
-        print("checkout to dev branch...")
-        checkout(conn, branch="dev")
+        #  print("checkout to dev branch...")
+        #  checkout(conn, branch="dev")
         print("pulling latest code from dev branch...")
         pull(conn)
-        print("migrating database....")
-        migrate(conn)
-        print("restarting the supervisor...")
+        #  print("migrating database....")
+        #  migrate(conn)
+        print("restarting the nginx...")
         restart(conn)
