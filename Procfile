@@ -1,1 +1,1 @@
-web: gunicorn flask translate; wsgi:app 
+web: gunicorn wsgi:app 
